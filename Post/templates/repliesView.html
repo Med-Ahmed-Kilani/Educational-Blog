@@ -1,0 +1,36 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <title>Comment: {{ comnt.comment }}</title>
+    <link rel="stylesheet" href="/media/styles/repliesView.css">
+</head>
+<body>
+{% include 'nav.html' %}
+
+<div class="list-group">
+        <button type="button" class="list-group-item list-group-item-action active">
+        {{ comnt.comment }}
+            <p>
+                {{ comnt.createdAt }}
+            </p>
+        </button>
+
+  {% for rep in replies %}
+        <a href="/{{ rep.id }}/repliesView">
+
+    <button type="button" class="list-group-item list-group-item-action">
+        <li>
+            {{ rep.comment }}
+            <p>
+                {{ comnt.createdAt }}
+            </p>
+        </li>
+    </button>
+                            <span class="badge badge-primary badge-pill" >{{rep.replies.all|length}}</span>
+                </a>
+  {% endfor %}
+    <a href="/{{comnt.id}}/addReply/">Reply</a>
+</div>
+</body>
+</html>

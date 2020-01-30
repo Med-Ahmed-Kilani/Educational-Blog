@@ -1,0 +1,36 @@
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="/media/styles/index.css">
+    <title>Document</title>
+</head>
+<body>
+{% include 'nav.html' %}
+
+
+<div class="pack">
+    {% for post in posts %}
+    <div class="card text-center" style="max-width: 50%; margin: 2% 25%;">
+        <div class="card-header">
+            Featured
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">{{ post.post }}</h5>
+            <a href="{{ post.id}}/commentView"><img src="{{ post.upload.url }}" class="card-img"></a>
+            <a href="{{ post.id}}/commentView" class="btn btn-primary">See more</a>
+        </div>
+        <div class="card-footer text-muted">
+            {{post.createdAt}}
+        </div>
+    </div>
+    {% endfor %}
+    <br>
+</div>
+
+</body>
+</html>
