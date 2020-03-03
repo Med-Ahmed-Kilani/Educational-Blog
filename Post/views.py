@@ -55,7 +55,8 @@ def add_comment(request, post_id):
     if request.method == 'POST':
         form = Add_New_Comment(request.POST)
         if form.is_valid():
-            Comment.objects.create(comment=form.cleaned_data['comment'], post=post_obj)
+            Comment.objects.create(comment=form.cleaned_data['comment'], post=post_obj, user=request.user)
+            return redirect("commentView/<int:post_id>/")
     form = Add_New_Comment()
     return render(request, 'addComment.html', {'context': form})
 
@@ -67,7 +68,7 @@ def add_rely(request, comment_id):
     if request.method == 'POST':
         form = Add_New_Comment(request.POST)
         if form.is_valid():
-            Comment.objects.create(comment=form.cleaned_data['comment'], reply=comment_obj)
+            Comment.objects.create(comment=form.cleaned_data['comment'], reply=comment_obj, user=request.user)
     form = Add_New_Comment
     return render(request, 'addReply.html', {'context': form})
 

@@ -40,7 +40,7 @@
 {% block content %}
     <div class="card text-center" style="max-width: 50%; margin: 2% 25%;">
         <div class="card-header">
-            Posted by {{ post.user }}
+            <p class="text-muted">Posted by {{ post.user }}</p>
         </div>
         <div class="card-body">
             <h5 class="card-title">{{ post.post }}</h5>
@@ -51,7 +51,7 @@
                 <a href="/repliesView/{{ cmnt.id }}/">
                     <li class="list-group-item list-group-item-action" >
                     {{cmnt.comment}}
-                    <p class="text-muted">{{ cmnt.createdAt }}</p>
+                    <p class="text-muted">{{ cmnt.createdAt }}<br> by {{ cmnt.user }}</p>
                 </li>
                 </a>
                 <span class="badge badge-primary badge-pill" >{{cmnt.replies.all|length}}</span>

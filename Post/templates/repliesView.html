@@ -42,7 +42,7 @@
         <button type="button" class="list-group-item list-group-item-action active">
             {{ comnt.comment }}
             <p>
-                {{ comnt.createdAt }}
+                {{ comnt.createdAt }}<br> by {{ comnt.user }}
             </p>
         </button>
         {% for rep in replies %}
@@ -51,7 +51,7 @@
                     <li>
                         {{ rep.comment }}
                         <p>
-                            {{ comnt.createdAt }}
+                            {{ comnt.createdAt }}<br> <p class="text-muted">by {{ cmnt.user }}</p>
                         </p>
                     </li>
                 </button>

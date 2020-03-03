@@ -26,8 +26,7 @@ class Comment(models.Model):
     comment    = models.TextField(max_length=200)
     reply      = models.ForeignKey('Comment', on_delete=models.CASCADE, null=True, related_name='replies')
     post       = models.ForeignKey('Post', on_delete=models.CASCADE, related_name='cmnts', null=True)
-    likes      = models.IntegerField(blank=True, default=0)
-    dislikes   = models.IntegerField(blank=True, default=0)
+    user       = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return f"{self.id},{self.comment},{self.createdAt}"
