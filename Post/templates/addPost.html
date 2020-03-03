@@ -1,26 +1,51 @@
-{% load static %}
-<html>
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <title>Document</title>
-</head>
-<body>
-{% include 'nav.html' %}
-<br>
-<form  method="POST" enctype="multipart/form-data"> {% csrf_token %}
-    <div class="form-group">
-        <label for="id_post">Example textarea</label>
-        <textarea name="post" class="form-control" id="id_post" rows="3"></textarea>
-    </div>
-    <div class="custom-file">
-        <input type="file" name="upload" class="custom-file-input" id="id_upload">
-        <label class="custom-file-label" for="id_upload">Choose file</label>
-    </div>
-    <input type="submit" value="Save"/>
-</form>
-</body>
-</html>
+{% extends 'base.html' %}
+
+        {% block nav-bar %}
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item ">
+                     <a class="nav-link" href="{% url 'Home' %}">Home </a>
+                </li>
+                {% if user.is_authenticated %}
+                <li class="nav-item ">
+                     <a class="nav-link active disabled" href="{% url 'addpost' %}">Add Post <span class="sr-only">(current)</span></a>
+                </li>
+                {% endif %}
+            </ul>
+                <span class="navbar-text">
+                    <ul class="navbar-nav">
+                        {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'profile' %}">Profile</a>
+                        </li>
+                        <li class="nav-item ">
+                             <a class="nav-link" href="{% url 'logout' %}">Log out</a>
+                        </li>
+                        {% else %}
+                        <li class="nav-item ">
+                             <a class="nav-link" href="{% url 'login' %}">Log in</a>
+                        </li>
+                        <li class="nav-item ">
+                             <a class="nav-link" href="{% url 'register' %}">Register</a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </span>
+
+
+        {% endblock %}
+
+
+{% block content %}
+    <form  method="POST" enctype="multipart/form-data"> {% csrf_token %}
+        <div class="form-group">
+            <label for="id_post">Post Textarea : </label>
+            <br>
+            <textarea name="post" class="form-control" id="id_post" rows="3"></textarea>
+        </div>
+        <div class="custom-file">
+            <input type="file" name="upload" class="custom-file-input" id="id_upload">
+            <label class="custom-file-label" for="id_upload">Choose file</label>
+        </div>
+        <input type="submit" value="Save"/>
+    </form>
+{% endblock %}

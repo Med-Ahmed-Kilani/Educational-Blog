@@ -9,8 +9,9 @@ router = routers.DefaultRouter()
 router.register('post', views.PostView)
 router.register('comment', views.CommentView)
 
+
 urlpatterns = [
     path('', include('Post.urls')),
     path('admin/', admin.site.urls),
-    path('', include(router.urls))
+    path('', include(router.urls)),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

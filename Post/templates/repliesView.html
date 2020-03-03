@@ -1,36 +1,63 @@
-<html>
-<head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <title>Comment: {{ comnt.comment }}</title>
-    <link rel="stylesheet" href="/media/styles/repliesView.css">
-</head>
-<body>
-{% include 'nav.html' %}
+{% extends 'base.html' %}
 
-<div class="list-group">
+
+        {% block nav-bar %}
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item ">
+                     <a class="nav-link" href="{% url 'Home' %}">Home </a>
+                </li>
+                {% if user.is_authenticated %}
+                <li class="nav-item ">
+                     <a class="nav-link" href="{% url 'addpost' %}">Add Post</a>
+                </li>
+                {% endif %}
+            </ul>
+                <span class="navbar-text">
+                    <ul class="navbar-nav">
+                        {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'profile' %}">Profile</a>
+                        </li>
+                        <li class="nav-item ">
+                             <a class="nav-link" href="{% url 'logout' %}">Log out</a>
+                        </li>
+                        {% else %}
+                        <li class="nav-item ">
+                             <a class="nav-link" href="{% url 'login' %}">Log in</a>
+                        </li>
+                        <li class="nav-item ">
+                             <a class="nav-link" href="{% url 'register' %}">Register</a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </span>
+
+
+        {% endblock %}
+
+
+
+{% block content %}
+    <div class="list-group">
         <button type="button" class="list-group-item list-group-item-action active">
-        {{ comnt.comment }}
+            {{ comnt.comment }}
             <p>
                 {{ comnt.createdAt }}
             </p>
         </button>
-
-  {% for rep in replies %}
-        <a href="/{{ rep.id }}/repliesView">
-
-    <button type="button" class="list-group-item list-group-item-action">
-        <li>
-            {{ rep.comment }}
-            <p>
-                {{ comnt.createdAt }}
-            </p>
-        </li>
-    </button>
-                            <span class="badge badge-primary badge-pill" >{{rep.replies.all|length}}</span>
-                </a>
-  {% endfor %}
-    <a href="/{{comnt.id}}/addReply/">Reply</a>
-</div>
-</body>
-</html>
+        {% for rep in replies %}
+            <a href="/repliesView/{{ rep.id }}/">
+                <button type="button" class="list-group-item list-group-item-action">
+                    <li>
+                        {{ rep.comment }}
+                        <p>
+                            {{ comnt.createdAt }}
+                        </p>
+                    </li>
+                </button>
+                <span class="badge badge-primary badge-pill" >{{rep.replies.all|length}}</span>
+            </a>
+        {% endfor %}
+        <a href="/addReply/{{comnt.id}}/">Reply</a>
+    </div>
+{% endblock %}

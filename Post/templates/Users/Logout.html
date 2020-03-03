@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+        {% block nav-bar %}
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item ">
+                     <a class="nav-link" href="{% url 'Home' %}">Home</a>
+                </li>
+            </ul>
+                <span class="navbar-text">
+                    <ul class="navbar-nav">
+                        <li class="nav-item ">
+                             <a class="nav-link" href="{% url 'login' %}">Log in</a>
+                        </li>
+                        <li class="nav-item">
+                             <a class="nav-link " href="{% url 'register' %}">Register</a>
+                        </li>
+                    </ul>
+                </span>
+        {% endblock %}
+
+
+
+{% block content %}
+
+    <h2>You have been Logged out !</h2>
+    <div class="border-top pt-3 ">
+        <small class="text-muted">
+            <a href="/Login">Log In Again!</a>
+        </small>
+    </div>
+
+{% endblock %}

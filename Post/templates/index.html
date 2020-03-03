@@ -1,36 +1,57 @@
-{% load static %}
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link rel="stylesheet" href="/media/styles/index.css">
-    <title>Document</title>
-</head>
-<body>
-{% include 'nav.html' %}
+{% extends 'base.html' %}
 
 
-<div class="pack">
-    {% for post in posts %}
-    <div class="card text-center" style="max-width: 50%; margin: 2% 25%;">
-        <div class="card-header">
-            Featured
+        {% block nav-bar %}
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item ">
+                     <a class="nav-link active disabled" href="{% url 'Home' %}">Home <span class="sr-only">(current)</span></a>
+                </li>
+                {% if user.is_authenticated %}
+                <li class="nav-item ">
+                     <a class="nav-link" href="{% url 'addpost' %}">Add Post</a>
+                </li>
+                {% endif %}
+            </ul>
+                <span class="navbar-text">
+                    <ul class="navbar-nav">
+                        {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'profile' %}">Profile</a>
+                        </li>
+                        <li class="nav-item ">
+                             <a class="nav-link" href="{% url 'logout' %}">Log out</a>
+                        </li>
+                        {% else %}
+                        <li class="nav-item ">
+                             <a class="nav-link" href="{% url 'login' %}">Log in</a>
+                        </li>
+                        <li class="nav-item ">
+                             <a class="nav-link" href="{% url 'register' %}">Register</a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </span>
+        {% endblock %}
+
+
+
+{% block content %}
+    <div>
+        {% for post in posts %}
+        <div class="card text-center" style="max-width: 50%; margin: 2% 25%;">
+            <div class="card-header">
+                Posted by <a href=""></a>{{ post.user }}
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">{{ post.post }}</h5>
+                <a href="commentView/{{post.id}}"><img src="{{ post.upload.url }}" class="card-img"></a>
+                <a href="commentView/{{ post.id}}" class="btn btn-primary">See more</a>
+            </div>
+            <div class="card-footer text-muted">
+                {{post.createdAt}}
+            </div>
         </div>
-        <div class="card-body">
-            <h5 class="card-title">{{ post.post }}</h5>
-            <a href="{{ post.id}}/commentView"><img src="{{ post.upload.url }}" class="card-img"></a>
-            <a href="{{ post.id}}/commentView" class="btn btn-primary">See more</a>
-        </div>
-        <div class="card-footer text-muted">
-            {{post.createdAt}}
-        </div>
+        {% endfor %}
+        <br>
     </div>
-    {% endfor %}
-    <br>
-</div>
-
-</body>
-</html>
+{% endblock %}

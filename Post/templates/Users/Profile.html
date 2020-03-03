@@ -1,9 +1,10 @@
 {% extends 'base.html' %}
 
-{% block nav-bar %}
+
+        {% block nav-bar %}
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item ">
-                     <a class="nav-link" href="{% url 'Home' %}">Home </a>
+                     <a class="nav-link" href="{% url 'Home' %}">Home</a>
                 </li>
                 {% if user.is_authenticated %}
                 <li class="nav-item ">
@@ -15,7 +16,7 @@
                     <ul class="navbar-nav">
                         {% if user.is_authenticated %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'profile' %}">Profile</a>
+                            <a class="nav-link active disabled" href="{% url 'profile' %}">Profile <span class="sr-only">(current)</span></a>
                         </li>
                         <li class="nav-item ">
                              <a class="nav-link" href="{% url 'logout' %}">Log out</a>
@@ -30,38 +31,27 @@
                         {% endif %}
                     </ul>
                 </span>
-
-
         {% endblock %}
 
 
 
-
 {% block content %}
-    <div class="card text-center" style="max-width: 50%; margin: 2% 25%;">
-        <div class="card-header">
-            Posted by {{ post.user }}
+    <div>
+        {% for post in posts %}
+        <div class="card text-center" style="max-width: 50%; margin: 2% 25%;">
+            <div class="card-header">
+                Posted by {{ post.user }}
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">{{ post.post }}</h5>
+                <a href="../commentView/{{ post.id}}/"><img src="{{ post.upload.url }}" class="card-img"></a>
+                <a href="../commentView/{{ post.id}}/" class="btn btn-primary">See more</a>
+            </div>
+            <div class="card-footer text-muted">
+                {{post.createdAt}}
+            </div>
         </div>
-        <div class="card-body">
-            <h5 class="card-title">{{ post.post }}</h5>
-            <img src="{{ post.upload.url }}" class="card-img">
-            comments number: {{ nb }}
-            <ul class="list-group">
-                {% for cmnt in post.cmnts.all %}
-                <a href="/repliesView/{{ cmnt.id }}/">
-                    <li class="list-group-item list-group-item-action" >
-                    {{cmnt.comment}}
-                    <p class="text-muted">{{ cmnt.createdAt }}</p>
-                </li>
-                </a>
-                <span class="badge badge-primary badge-pill" >{{cmnt.replies.all|length}}</span>
-                <br>
-                {% endfor %}
-                <h3><a href="/addComment/{{ post.id }}/">Add a comment</a></h3>
-            </ul>
-        </div>
-        <div class="card-footer text-muted">
-            {{post.createdAt}}
-        </div>
+        {% endfor %}
+        <br>
     </div>
 {% endblock %}
