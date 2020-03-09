@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from .models import Post, Comment
@@ -51,12 +52,14 @@ def add_post_view(request):
 
 @login_required
 def add_comment(request, post_id):
+    form = Add_New_Comment()
     post_obj = Post.objects.get(pk=post_id)
     if request.method == 'POST':
         form = Add_New_Comment(request.POST)
         if form.is_valid():
             Comment.objects.create(comment=form.cleaned_data['comment'], post=post_obj, user=request.user)
-            return redirect("commentView/<int:post_id>/")
+            return HttpResponseRedirect('/commentView/%d/' % post_id)
+
     form = Add_New_Comment()
     return render(request, 'addComment.html', {'context': form})
 
@@ -69,6 +72,7 @@ def add_rely(request, comment_id):
         form = Add_New_Comment(request.POST)
         if form.is_valid():
             Comment.objects.create(comment=form.cleaned_data['comment'], reply=comment_obj, user=request.user)
+            return HttpResponseRedirect('/repliesView/%d/' % comment_id)
     form = Add_New_Comment
     return render(request, 'addReply.html', {'context': form})
 
